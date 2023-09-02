@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2023 Phu Hung Nguyen <phuhnguyen@outlook.com>
+# SPDX-License-Identifier: CC0-1.0
+
+[tool.poetry]
+name = "mdit-py-i18n"
+version = "0.1.0"
+description = "Markdown i18n and l10n using markdown-it-py"
+authors = ["Phu Hung Nguyen <phuhnguyen@outlook.com>"]
+license = "LGPL-2.1-or-later"
+readme = "README.md"
+repository = "https://github.com/phunh/mdit-py-i18n"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Internationalization",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3"
+]
+packages = [{include = "mdit_py_i18n"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+markdown-it-py = {extras = ["plugins"], version = "^3.0.0"}
+Pygments = "^2.16.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
