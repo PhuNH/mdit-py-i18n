@@ -40,9 +40,9 @@ poetry install
 ### Usage
 
 #### Extraction
-- Follow `I18NEntryProtocol` and `DomainExtractionProtocol`
+- Implement `I18NEntryProtocol` and `DomainExtractionProtocol`
 - Subclass `RendererMarkdownI18N`
 
 #### Generation
-- Follow `DomainGenerationProtocol`
+- Implement `DomainGenerationProtocol`
 - Subclass `RendererMarkdownL10N`
