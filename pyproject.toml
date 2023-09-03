@@ -3,7 +3,7 @@
 
 [tool.poetry]
 name = "mdit-py-i18n"
-version = "0.1.0"
+version = "0.1.1"
 description = "Markdown i18n and l10n using markdown-it-py"
 authors = ["Phu Hung Nguyen <phuhnguyen@outlook.com>"]
 license = "LGPL-2.1-or-later"
