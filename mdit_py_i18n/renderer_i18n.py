@@ -14,23 +14,13 @@ from . import utils
 from .utils import DomainExtractionProtocol
 
 
-class _MdCtx:
+class MdCtx:
     def __init__(self, env: EnvType):
         self.path: str = env['path']
         self.domain_e: DomainExtractionProtocol = env['domain_extraction']
 
     def add_entry(self, msgid: str, line_number: int, comment: str = '', msgctxt: str = ''):
         self.domain_e.add_entry(self.path, msgid, line_number, comment, msgctxt)
-
-
-def _link_ref(env: EnvType, md_ctx: _MdCtx):
-    refs = env.get('references', {}).items()
-    if len(refs) == 0:
-        return
-    for ref, details in refs:
-        if title := details.get('title', ''):
-            # TODO: line number?
-            md_ctx.add_entry(title, 0)
 
 
 class RendererMarkdownI18N:
@@ -56,30 +46,39 @@ class RendererMarkdownI18N:
             - 'domain_extraction': an object compatible with `DomainExtractionProtocol`
         :return: None
         """
-        md_ctx = _MdCtx(env)
+        md_ctx = MdCtx(env)
 
         for i, token in enumerate(tokens):
             if token.type in self.rules:
                 r = self.rules[token.type](tokens, i, md_ctx)
                 if r == -1:
                     break
+        self._link_ref(env, md_ctx)
 
-        _link_ref(env, md_ctx)
-        
+    @staticmethod
+    def _link_ref(env: EnvType, md_ctx: MdCtx):
+        refs = env.get('references', {}).items()
+        if len(refs) == 0:
+            return
+        for ref, details in refs:
+            if title := details.get('title', ''):
+                # TODO: line number?
+                md_ctx.add_entry(title, 0)
+
     @classmethod
-    def front_matter(cls, tokens: Sequence[Token], idx: int, md_ctx: _MdCtx):
+    def front_matter(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
         token = tokens[idx]
         md_ctx.domain_e.render_front_matter(md_ctx.path, token.content, token.markup)
 
     @classmethod
-    def inline(cls, tokens: Sequence[Token], idx: int, md_ctx: _MdCtx):
+    def inline(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
         token = tokens[idx]
         content = utils.SPACES_PATTERN.sub(' ', token.content.replace('\n', ' '))
         if content and not utils.SPACES_PATTERN.fullmatch(content):
             md_ctx.add_entry(content, token.map[0] + 1)
 
     @classmethod
-    def fence(cls, tokens: Sequence[Token], idx: int, md_ctx: _MdCtx):
+    def fence(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
         token = tokens[idx]
         try:
             lexer = lexers.get_lexer_by_name(token.info)
@@ -121,6 +120,6 @@ class RendererMarkdownI18N:
             md_ctx.add_entry(comment, comment_line_num)
 
     @classmethod
-    def html_block(cls, tokens: Sequence[Token], idx: int, md_ctx: _MdCtx):
+    def html_block(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
         token = tokens[idx]
         md_ctx.add_entry(token.content, token.map[0] + 1)
