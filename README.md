@@ -25,6 +25,16 @@ Some notes about how different elements are handled:
 as a whole;
 - Fenced code blocks: only `//` single comments are processed;
 
+## Usage
+
+### Extraction
+- Implement `I18NEntryProtocol` and `DomainExtractionProtocol`
+- Subclass `RendererMarkdownI18N`
+
+### Generation
+- Implement `DomainGenerationProtocol`
+- Subclass `RendererMarkdownL10N`
+
 ## Development
 
 ### Environment
@@ -36,13 +46,3 @@ conda env create -f environment.yml
 conda activate mpi
 poetry install
 ```
-
-### Usage
-
-#### Extraction
-- Implement `I18NEntryProtocol` and `DomainExtractionProtocol`
-- Subclass `RendererMarkdownI18N`
-
-#### Generation
-- Implement `DomainGenerationProtocol`
-- Subclass `RendererMarkdownL10N`
