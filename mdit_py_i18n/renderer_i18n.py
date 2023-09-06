@@ -62,8 +62,7 @@ class RendererMarkdownI18N:
             return
         for ref, details in refs:
             if title := details.get('title', ''):
-                # TODO: line number?
-                md_ctx.add_entry(title, 0)
+                md_ctx.add_entry(title, details['map'][0] + 1)
 
     @classmethod
     def front_matter(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
