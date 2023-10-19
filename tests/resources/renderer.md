@@ -56,3 +56,6 @@ this is a reference [foo]. and after the reference.
 | head | head2 |
 |------|-------|
 | body | body2 |
+
+paragraph with  
+a hard line break

@@ -6,6 +6,7 @@ import re
 from typing import Callable, Protocol, Tuple, List
 
 SPACES_PATTERN = re.compile(r'\s+')
+HARD_LINE_BREAK_PATTERN = re.compile(r'(?: {2,}|\\)\n *')
 SINGLE_COMMENT_PATTERN = re.compile('(// *)(.*)')
 
 

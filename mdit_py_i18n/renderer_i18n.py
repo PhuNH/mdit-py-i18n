@@ -72,7 +72,8 @@ class RendererMarkdownI18N:
     @classmethod
     def inline(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
         token = tokens[idx]
-        content = utils.SPACES_PATTERN.sub(' ', token.content.replace('\n', ' '))
+        content = utils.HARD_LINE_BREAK_PATTERN.sub('<br />', token.content.strip())
+        content = utils.SPACES_PATTERN.sub(' ', content.replace('\n', ' '))
         if content and not utils.SPACES_PATTERN.fullmatch(content):
             md_ctx.add_entry(content, token.map[0] + 1)
 

@@ -179,7 +179,8 @@ class RendererMarkdownL10N:
     @classmethod
     def inline(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx, content_result: L10NResult):
         token = tokens[idx]
-        content = utils.SPACES_PATTERN.sub(' ', token.content.replace('\n', ' '))
+        content = utils.HARD_LINE_BREAK_PATTERN.sub('<br />', token.content.strip())
+        content = utils.SPACES_PATTERN.sub(' ', content.replace('\n', ' '))
         if content and not utils.SPACES_PATTERN.fullmatch(content):
             localized_content = md_ctx.domain_g.l10n_func(content)
         else:
