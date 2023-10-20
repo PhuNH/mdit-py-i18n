@@ -30,6 +30,7 @@ class MdCtx:
         self.setext_heading = ''
         self.table_sep = ''
         self.in_table = False
+        self.parse_fence = env.get('parse_fence', False)
         self.domain_g: DomainGenerationProtocol = env['domain_generation']
 
     def get_line_indent(self):
@@ -297,6 +298,8 @@ class RendererMarkdownL10N:
     # fenced code block
     @classmethod
     def fence(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx, content_result: L10NResult):
+        if not md_ctx.parse_fence:
+            return
         token = tokens[idx]
         localized_fence = cls._fence(token, md_ctx, content_result)
         localized_fence = localized_fence.replace('\n', f'\n{md_ctx.line_indent}')

@@ -22,6 +22,7 @@ class RendererMarkdownL10NTestCase(unittest.TestCase):
 
     def _prep_test(self, f_obj):
         env = {
+            'parse_fence': True,
             'domain_generation': DomainGeneration(lambda s: s)
         }
         # skip front matter

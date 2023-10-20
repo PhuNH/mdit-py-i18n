@@ -17,6 +17,7 @@ from .utils import DomainExtractionProtocol
 class MdCtx:
     def __init__(self, env: EnvType):
         self.path: str = env['path']
+        self.parse_fence = env.get('parse_fence', False)
         self.domain_e: DomainExtractionProtocol = env['domain_extraction']
 
     def add_entry(self, msgid: str, line_number: int, comment: str = '', msgctxt: str = ''):
@@ -79,6 +80,8 @@ class RendererMarkdownI18N:
 
     @classmethod
     def fence(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx):
+        if not md_ctx.parse_fence:
+            return
         token = tokens[idx]
         try:
             lexer = lexers.get_lexer_by_name(token.info)

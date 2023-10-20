@@ -24,7 +24,8 @@ Some notes about how different elements are handled:
 consecutive spaces are not kept;
 - Content of each HTML block isn't parsed into finer tokens but processed
 as a whole;
-- Fenced code blocks: only `//` single comments are processed;
+- Fenced code blocks: disabled by default. When enabled, only `//` and `#`
+single comments are processed;
 
 ## Usage
 

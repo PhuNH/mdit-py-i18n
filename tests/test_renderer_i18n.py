@@ -39,6 +39,7 @@ class RendererMarkdownI18NTestCase(unittest.TestCase):
         with pkg_resources.open_text('tests.resources', path) as f_obj:
             env = {
                 'path': path,
+                'parse_fence': True,
                 'domain_extraction': domain_e
             }
             tokens = self.mdi.parse(f_obj.read(), env)
