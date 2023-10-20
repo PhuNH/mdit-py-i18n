@@ -44,6 +44,19 @@ int main() {
 }
 ```
 
+```python
+# function defined by `def` keyword.
+# arg is an argument.
+# this function does nothing more than showing that addition is possible
+def function(arg):
+    b = 5
+    # c is a variable
+    c = arg + b
+    
+    # return statement
+    return c
+```
+
 <div>
     <p>html block</p>
     <hr>

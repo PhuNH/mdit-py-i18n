@@ -44,7 +44,7 @@ class RendererMarkdownI18NTestCase(unittest.TestCase):
             tokens = self.mdi.parse(f_obj.read(), env)
         # skip front matter
         self.mdi.renderer.render(tokens[1:], self.mdi.options, env)
-        self.assertEqual(18, len(domain_e.entries))
+        self.assertEqual(21, len(domain_e.entries))
 
 
 if __name__ == '__main__':

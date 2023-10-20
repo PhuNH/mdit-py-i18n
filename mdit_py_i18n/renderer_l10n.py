@@ -50,6 +50,7 @@ class _FenceCtx:
     # temporary content of the comment being parsed
     # also indicates whether we are parsing a comment or not
     comment: str = ''
+    comment_markup: str = ''
     indent: str = ''  # things on the same line before the comment
     next_indent: str = ''  # a second field when 'indent' is busy
 
@@ -121,8 +122,8 @@ class RendererMarkdownL10N:
         subsequent_indent = ' ' * len(fence_ctx.indent) if fence_ctx.indent.strip() else fence_ctx.indent
         comment_lines = textwrap.wrap(localized_comment,
                                       100,
-                                      initial_indent=f'{fence_ctx.indent}// ',
-                                      subsequent_indent=f'{subsequent_indent}// ')
+                                      initial_indent=f'{fence_ctx.indent}{fence_ctx.comment_markup}',
+                                      subsequent_indent=f'{subsequent_indent}{fence_ctx.comment_markup}')
         for line in comment_lines:
             fence_ctx.localized += f'{line}\n'
         fence_ctx.comment = ''
@@ -155,6 +156,7 @@ class RendererMarkdownL10N:
                     fence_ctx.comment += ' '
                 if comment_match := utils.SINGLE_COMMENT_PATTERN.match(tok_val):
                     fence_ctx.comment += comment_match.group(2).strip()
+                    fence_ctx.comment_markup = comment_match.group(1)
                 last_comment_line_num = line_num
             else:
                 if fence_ctx.comment:
@@ -163,7 +165,7 @@ class RendererMarkdownL10N:
                         fence_ctx.indent = fence_ctx.next_indent + tok_val
                         fence_ctx.next_indent = ''
                     else:
-                        fence_ctx.next_indent = tok_val
+                        fence_ctx.next_indent = '' if tok_val == '\n' else tok_val
                 else:
                     last_nl = tok_val.rfind('\n')
                     if last_nl != -1:
