@@ -131,6 +131,9 @@ class RendererMarkdownL10N:
 
     @classmethod
     def _fence(cls, token: Token, md_ctx: MdCtx, content_result: L10NResult):
+        if not md_ctx.parse_fence:
+            return token.content
+
         try:
             lexer = lexers.get_lexer_by_name(token.info)
         except util.ClassNotFound:
@@ -298,8 +301,6 @@ class RendererMarkdownL10N:
     # fenced code block
     @classmethod
     def fence(cls, tokens: Sequence[Token], idx: int, md_ctx: MdCtx, content_result: L10NResult):
-        if not md_ctx.parse_fence:
-            return
         token = tokens[idx]
         localized_fence = cls._fence(token, md_ctx, content_result)
         localized_fence = localized_fence.replace('\n', f'\n{md_ctx.line_indent}')
